@@ -8,7 +8,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - Introduction
 - Definitions
 - Constraints
-- Object Modelling
+- Modelling
 - API Reference
 
 ## Introduction
@@ -17,6 +17,20 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Constraints
 
-## Object Modelling
+## Modelling
+
+- Wallet Address  
+
+  ``` json
+  {
+    "address": "",
+    "balance": 0,
+    "currency": "",
+    "limits": {
+      "lower": 0,
+      "upper": null
+    }
+  }
+  ```
 
 ## API Reference
