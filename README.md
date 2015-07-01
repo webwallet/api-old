@@ -33,4 +33,22 @@ This specification defines a RESTful API for the creation of digital wallets, is
   }
   ```
 
+- Transaction Request
+
+  ``` json
+  {
+    "header": {
+      "alg": ""
+    },
+    "payload": {
+      "sub": "",
+      "aud": "",
+      "amt": 0,
+      "iou": "",
+      "iat": ""
+    },
+    "signature": ""
+  }
+  ```
+
 ## API Reference
