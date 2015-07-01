@@ -15,11 +15,26 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Definitions
 
+- **Wallet**  
+  A collection of wallet addresses; a container of credentials (identity, payment,...).
+
+- **Wallet Address**  
+  An identifier that represents a possible source or destination of a transaction.
+
+- **Transaction Request**  
+  A document that specifies the source, destination, amount and currency of a transaction.
+
+- **Transaction Record**  
+  A document that gathers all information required for a transaction request to be included in a transaction chain.
+
+- **Transaction Chain**  
+  A sequence of transaction records linked to previous records in a tamper-evident way.
+
 ## Constraints
 
 ## Modelling
 
-- Wallet Address  
+- **Wallet Address**  
 
   ``` json
   {
@@ -33,7 +48,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
   }
   ```
 
-- Transaction Request
+- **Transaction Request**  
 
   ``` json
   {
