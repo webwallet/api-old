@@ -12,7 +12,17 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - API Reference
 
 ## Introduction
+  Money arose from debt, not from barter, and therefore it is information about what we owe each other. With modern technology, this information can be generated with a computer and sent over the Internet like any instant message or email, but we need to agree on how this information will be created and communicated securely. The WebWallet API is a proposal for the creation and processing of such information on the Web.
 
+### Design Principles
+ This specification defines a unified monetary and transactional model that enables the implementation of different currency systems in a uniform way, a tamper-evident approach for ensuring data integrity and protecting transaction history, and a RESTful API that exposes all resources and functionality according to the architectural style of the Web.
+ 
+ - Monetary and Transactional Model
+ 
+ - Data Integrity Approach
+
+ - RESTful API
+ 
 ## Definitions
 
 - **Wallet**  
@@ -22,7 +32,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
   An identifier that represents a possible source or destination of a transaction.
 
 - **Transaction Request**  
-  A document that specifies the source, destination, amount and currency of a transaction.
+  A message that specifies the source, destination, amount and currency of a transaction.
 
 - **Transaction Record**  
   A document that gathers all information required for a transaction request to be included in a transaction chain.
