@@ -107,3 +107,9 @@ This specification defines a RESTful API for the creation of digital wallets, is
   ```
 
 ## API Reference
+
+  - **/address**  
+
+  - **/balance**  
+
+  - **/transactions**  
