@@ -22,7 +22,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
     - **Balance Limits**  
       Besides a balance attribute, every address has a lower and an upper balance limit. The configuration of these limits enable the implementation of several currency systems such as centrally-issued currencies (all but one addresses have a lower limit greater than or equal to zero), cash-in currency systems (only the gateway addresses have negative lower limits) and mutual credit systems (all addresses have negative lower limits).
     - **Transaction Source**  
-     
+      
     - **Currency Supply** 
       
 
@@ -48,6 +48,18 @@ This specification defines a RESTful API for the creation of digital wallets, is
   A sequence of transaction records linked to previous records in a tamper-evident way.
 
 ## Constraints
+   - **Balance type**  
+     Address balances must be represented in numbers, not strings.
+   - **Balance initialization**  
+     New addresses must always be created with a balance of zero.
+   - **Balance modification**  
+     Address balances can only be modified by valid transactions.
+   - **Balance value**  
+     Address balances must always be in the range defined by their balance limits.
+   - **Balance limits**  
+     Upper limits must always be greater than or equal to their corresponding lower limits.
+   - **Balance format**  
+     Address balances can only have decimal place values if allowed by the currency.
 
 ## Modelling
 
