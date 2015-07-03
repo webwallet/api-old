@@ -12,16 +12,23 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - API Reference
 
 ## Introduction
-  Money arose from debt, not from barter, and therefore it is information about what we owe each other. With modern technology, this information can be generated with a computer and sent over the Internet like any instant message or email, but we need to agree on how this information will be created and communicated securely. The WebWallet API is a proposal for the creation and processing of such information on the Web.
+  Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. With modern technology, this information can be generated with a computer or mobile phone and sent over the Internet like any instant message or email. The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
 
 ### Design Principles
  This specification defines a unified monetary and transactional model that enables the implementation of different currency systems in a uniform way, a tamper-evident approach for ensuring data integrity and protecting transaction history, and a RESTful API that exposes all resources and functionality according to the architectural style of the Web.
  
- - Monetary and Transactional Model
- 
- - Data Integrity Approach
+ - **Monetary and Transactional Model**  
+  The WebWallet API uses the same underlying data modeling and transaction processing rules for implementing different currency systems, which result from different configurations of the following parameters:
+    - **Balance Limits**  
+      Besides a balance attribute, every address has a lower and an upper balance limit. The configuration of these limits enable the implementation of several currency systems such as centrally-issued currencies (all but one addresses have a lower limit greater than or equal to zero), cash-in currency systems (only the gateway addresses have negative lower limits) and mutual credit systems (all addresses have negative lower limits).
+    - **Transaction Source**  
+     
+    - **Currency Supply** 
+      
 
- - RESTful API
+ - **Data Integrity Approach**  
+
+ - **RESTful API**  
  
 ## Definitions
 
