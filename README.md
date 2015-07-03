@@ -20,11 +20,11 @@ This specification defines a RESTful API for the creation of digital wallets, is
  - **Monetary and Transactional Model**  
   The WebWallet API uses the same underlying data modeling and transaction processing rules for implementing different currency systems, which result from different configurations of the following parameters:
     - **Balance Limits**  
-      Besides a balance attribute, every address has a lower and an upper balance limit. The configuration of these limits enable the implementation of several currency systems such as centrally-issued currencies (all but one addresses have a lower limit greater than or equal to zero), cash-in currency systems (only the gateway addresses have negative lower limits) and mutual credit systems (all addresses have negative lower limits).
+      Besides a balance attribute, every address has a lower and an upper balance limit. The configuration of these limits enables the implementation of several currency systems such as centrally-issued currencies (all but one addresses have a lower limit greater than or equal to zero), cash-in currency systems (only the gateway addresses have negative lower limits) and mutual credit systems (all addresses have negative lower limits).
     - **Transaction Source**  
-      
-    - **Currency Supply** 
-      
+      The funds for a transaction sent to an address always come from another address. Given that all addresses start with a balance of zero, every currency system must have at least one address with a negative lower limit, so that a currency supply can be created and eventually used by the remaining addresses to carry out transactions between them.
+    - **Currency Supply**  
+      The currency supply is created, increased or decreased by sending transactions from/to addresses with negative lower limits. It can be a fixed amount issued upfront (limited assets), a growing amount increased on-demand (centrally-issued currencies), a dynamic amount changed on-demand (mutual credit systems), or any combination thereof.
 
  - **Data Integrity Approach**  
 
