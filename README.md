@@ -6,6 +6,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Contents
 - Introduction
+- Design Principles
 - Definitions
 - Constraints
 - Modelling
@@ -14,8 +15,10 @@ This specification defines a RESTful API for the creation of digital wallets, is
 ## Introduction
   Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. With modern technology, this information can be generated with a computer or mobile phone and sent over the Internet like any instant message or email. The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
 
-### Basic Concepts
+### Motivation
   The Web is made of links, but money isn't. If links are so powerful, there should be links referencing and enabling interactions with resources about money, just like there are links to other types of information such as articles, photos and videos. The WebWallet API is built around the concept of modeling digital wallets and their contents as URLs, and the transactions between them as requests to those URLs.
+
+### Basic Concepts
   - **WebWallet**  
   A WebWallet is a URL that references a set of payment credentials. A payment credential is any means or proof of payment such as currencies, receipts, tickets, coupons, gift cards, loyalty points, certificates or badges. WebWallet URLs use the following syntax:  
 
@@ -25,7 +28,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
   
   where {address} is an identifier that references a particular payment credential, which may or may not belong to a collection of credentials enclosed by another WebWallet.
   
-### Design Principles
+## Design Principles
  This specification is based on a unified monetary and transactional model that enables the implementation of different currency systems in a uniform way, a tamper-evident approach for ensuring data integrity and protecting transaction history, and a RESTful API that exposes all resources and interactions according to the architectural style of the Web.
  
  - **Monetary and Transactional Model**  
