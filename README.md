@@ -9,18 +9,19 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - Design Principles
 - Definitions
 - Constraints
-- Modelling
+- Data Modeling
+- IOU Categories
 - API Reference
 
 ## Introduction
   Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. With modern technology, this information can be generated with a computer or mobile phone and sent over the Internet like any instant message or email. The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
 
 ### Motivation
-  The Web is made of links, but money isn't. If links are so powerful, there should be links referencing and enabling interactions with resources about money, just like there are links to other types of information such as articles, photos and videos. The WebWallet API is built around the concept of modeling digital wallets and their contents as URLs, and the transactions between them as requests to those URLs.
+  The Web is made of links, but money isn't. If links are so powerful, there should be links referencing and enabling interactions with money, just like there are links to other types of information such as articles, photos and videos. The WebWallet API is built around the concept of modeling digital wallets and their contents as URLs, and the transactions between them as requests to those URLs.
 
 ### Basic Concepts
   - **WebWallet**  
-  A WebWallet is a URL that references a set of payment credentials. A payment credential is any means or proof of payment such as currencies, receipts, tickets, coupons, gift cards, loyalty points, certificates or badges. WebWallet URLs use the following syntax:  
+  A WebWallet is a URL that references and enables the interaction with a set of payment credentials. A payment credential is any means or proof of payment such as virtual currencies, receipts, tickets, coupons, gift cards, loyalty points, certificates or badges. WebWallet URLs use the following syntax:  
 
   ```
   https://wallet.example.com/address/{address}
@@ -75,7 +76,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
    - **Balance format**  
      Address balances can only have decimal place values if allowed by the currency.
 
-## Modelling
+## Data Modeling
 
 - **Wallet Address**  
 
@@ -109,6 +110,29 @@ This specification defines a RESTful API for the creation of digital wallets, is
   }
   ```
 
+## IOU Categories
+
+  - **P2P (Peer-to-Peer)**  
+
+  ``` json
+  "sub": "sourceAddress"
+  "aud": "destinationAddress"
+  ```
+  
+  - **P2N (Peer-to-Network)**  
+
+  ``` json
+  "sub": "sourceAddress"
+  "aud": "*"
+  ```
+  
+  - **N2N (Network-to-Network)**  
+
+  ``` json
+  "sub": "clearingAddress"
+  "aud": "*"
+  ```
+  
 ## API Reference
 
   - **/address**  
