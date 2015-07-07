@@ -44,7 +44,14 @@ This specification defines a RESTful API for the creation of digital wallets, is
  - **Data Integrity Approach**  
 
  - **RESTful API**  
- 
+ The WebWallet API aims to be fully REST compliant, meaning level 3 in the Richardson Maturity Model. This implies having a URL for each resource, interacting with them using a standard set of verbs, and enabling discoverability and state transitions through hypermedia.
+    - **Resource URLs**  
+
+    - **HTTP Verbs**  
+
+    - **Hypermedia Controls**  
+  
+
 ## Definitions
 
 - **Wallet**  
