@@ -42,6 +42,12 @@ This specification defines a RESTful API for the creation of digital wallets, is
       The currency supply is created, increased or decreased by sending transactions from/to addresses with negative lower limits. It can be a fixed amount issued upfront (limited assets), a growing amount increased on-demand (centrally-issued currencies), a dynamic amount changed on-demand (mutual credit systems), or any combination thereof.
 
  - **Data Integrity Approach**  
+    - **JSON Web Signatures**  
+
+    - **Public Key Cryptography**  
+
+    - **Transaction Chains**  
+
 
  - **RESTful API**  
  The WebWallet API aims to be fully REST compliant, meaning level 3 in the Richardson Maturity Model. This implies having a URL for each resource, interacting with them using a standard set of verbs, and enabling discoverability and state transitions through hypermedia.
