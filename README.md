@@ -10,7 +10,6 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - Definitions
 - Constraints
 - Data Modeling
-- IOU Categories
 - API Reference
 
 ## Introduction
@@ -91,6 +90,8 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Data Modeling
 
+### Database Records
+
 - **Wallet Address**  
 
   ``` json
@@ -104,6 +105,8 @@ This specification defines a RESTful API for the creation of digital wallets, is
     }
   }
   ```
+
+### Request Messages
 
 - **Transaction Request**  
 
@@ -123,7 +126,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
   }
   ```
 
-## IOU Categories
+### Transaction Types
 
   - **P2P (Peer-to-Peer)**  
 
