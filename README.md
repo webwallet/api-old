@@ -150,9 +150,24 @@ This specification defines a RESTful API for the creation of digital wallets, is
   ```
   
 ## API Reference
-
+The WebWallet API defines three basic endpoints: one for generating wallet addresses (/address), one for checking address balances (/balance) and one for sending transaction requests (/transactions).
   - **/address**  
+    ```
+    POST /address HTTP/1.1
+    Host: wallet.example.com
+    Authorization: Bearer <TOKEN>
+    ```
 
-  - **/balance**  
+  - **/balance**   
+    ```
+    GET /address/.../balance HTTP/1.1
+    Host: wallet.example.com
+    Authorization: Bearer <TOKEN>
+    ```
 
   - **/transactions**  
+    ```
+    POST /address/.../transactions HTTP/1.1
+    Host: wallet.example.com
+    Authorization: Bearer <TOKEN>
+    ```
