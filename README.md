@@ -90,6 +90,27 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Data Modeling
 
+### API Messages
+
+- **Transaction Request**  
+
+``` json
+  {
+    "header": {
+      "alg": "",
+      "kid": ""
+    },
+    "payload": {
+      "sub": "",
+      "aud": "",
+      "amt": 0,
+      "iou": "",
+      "iat": ""
+    },
+    signature: ""
+  }
+  ```
+  
 ### Database Records
 
 - **Wallet Address**  
@@ -103,6 +124,30 @@ This specification defines a RESTful API for the creation of digital wallets, is
       "lower": 0,
       "upper": null
     }
+  }
+  ```
+
+- **Transaction Request**  
+
+  ``` json
+  {
+    "payload": {
+      "sub": "",
+      "aud": "",
+      "amt": 0,
+      "iou": "",
+      "iat": ""
+    },
+    signatures: [
+      {
+        "header": {
+          "alg": "",
+          "kid": ""
+        },
+        "signature": ""
+      },
+      ...
+    ]
   }
   ```
 
