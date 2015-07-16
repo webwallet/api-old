@@ -90,7 +90,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Data Modeling
 
-### API Messages
+### API Requests
 
 - **Transaction Request**  
 
@@ -107,8 +107,30 @@ This specification defines a RESTful API for the creation of digital wallets, is
       "iou": "",
       "iat": ""
     },
-    signature: ""
+    "signature": ""
   }
+  ```
+#### Transaction Types
+
+  - **P2P (Peer-to-Peer)**  
+
+  ``` json
+  "sub": "sourceAddress"
+  "aud": "destinationAddress"
+  ```
+  
+  - **P2N (Peer-to-Network)**  
+
+  ``` json
+  "sub": "sourceAddress"
+  "aud": "*"
+  ```
+  
+  - **N2N (Network-to-Network)**  
+
+  ``` json
+  "sub": "clearingAddress"
+  "aud": "*"
   ```
   
 ### Database Records
@@ -138,60 +160,26 @@ This specification defines a RESTful API for the creation of digital wallets, is
       "iou": "",
       "iat": ""
     },
-    signatures: [
+    "signatures": [
       {
         "header": {
           "alg": "",
           "kid": ""
         },
         "signature": ""
-      },
-      ...
+      }
     ]
   }
   ```
 
-### Request Messages
-
-- **Transaction Request**  
-
+### API Responses
   ``` json
   {
-    "header": {
-      "alg": ""
-    },
-    "payload": {
-      "sub": "",
-      "aud": "",
-      "amt": 0,
-      "iou": "",
-      "iat": ""
-    },
-    "signature": ""
+    "properties": {},
+    "entities": [],
+    "actions": [],
+    "links": []
   }
-  ```
-
-### Transaction Types
-
-  - **P2P (Peer-to-Peer)**  
-
-  ``` json
-  "sub": "sourceAddress"
-  "aud": "destinationAddress"
-  ```
-  
-  - **P2N (Peer-to-Network)**  
-
-  ``` json
-  "sub": "sourceAddress"
-  "aud": "*"
-  ```
-  
-  - **N2N (Network-to-Network)**  
-
-  ``` json
-  "sub": "clearingAddress"
-  "aud": "*"
   ```
   
 ## API Overview
