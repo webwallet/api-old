@@ -42,7 +42,15 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
  - **Data Integrity Approach**  
     - **JSON Web Signatures**  
-
+    
+      ``` json
+      {
+        "header": {},
+        "payload": {},
+        "signature": ""
+      }
+      ```
+      
     - **Public Key Cryptography**  
 
     - **Transaction Chains**  
@@ -94,7 +102,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 - **Transaction Request**  
 
-``` json
+  ``` json
   {
     "header": {
       "alg": "",
@@ -110,6 +118,8 @@ This specification defines a RESTful API for the creation of digital wallets, is
     "signature": ""
   }
   ```
+  
+  
 #### Transaction Types
 
   - **P2P (Peer-to-Peer)**  
@@ -172,7 +182,10 @@ This specification defines a RESTful API for the creation of digital wallets, is
   }
   ```
 
-### API Responses
+### API Responses  
+
+- **General structure**  
+
   ``` json
   {
     "properties": {},
