@@ -2,7 +2,7 @@
 ### A digital wallet specification for the Web.
 
 ## Abstract
-This specification defines a RESTful API for the creation of digital wallets, issuance of virtual currencies and processing of transactions on the Web.
+This specification defines a RESTful API for the creation of digital wallets, issuance of virtual currencies and processing of transactions on the Web. The API is built around the concept of modeling digital wallets and their contents as URLs, and the transactions between them as requests to those URLs.
 
 ## Contents
 - Introduction
@@ -13,10 +13,9 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - API Overview
 
 ## Introduction
-  Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. With modern technology, this information can be generated with a computer or mobile phone and sent over the Internet like any instant message or email. The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
-
-### Motivation
-  The Web is made of links, but money isn't. If links are so powerful, there should be links referencing and enabling interactions with money, just like there are links to other types of information such as articles, photos and videos. The WebWallet API is built around the concept of modeling digital wallets and their contents as URLs, and the transactions between them as requests to those URLs.
+  The Web is made of links, but money isn't, yet. If links are so useful for referencing different kinds of information such as articles, photos and videos, why aren't they used to reference and enable interactions with money? 
+  
+  Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. Using public key cryptography and Web technologies, this information can be generated with a computer, referenced using URLs and sent over the Internet like any instant message or email. The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
 
 ### Basic Concepts
   - **WebWallet**  
