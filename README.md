@@ -49,16 +49,19 @@ This specification defines a RESTful API for the creation of digital wallets, is
           "alg": "cryptographic algorithm"
         },
         "payload": {
-          // actual data
+          
         },
         "signature": "cryptographic signature"
       }
       ```
       
     - **Public Key Cryptography**  
-
+    With the purpose of enabling client-side address generation and transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all JWS signatures will be generated using public key cryptography.
+      ```
+      
+      ```
     - **Transaction Chains**  
-
+    In order to protect transaction history from tampering, each transaction record will include a reference to the previous transaction. 
 
  - **RESTful API**  
  The WebWallet API aims to be fully REST compliant, meaning level 3 in the Richardson Maturity Model. This implies having a URL for each resource, interacting with them using a standard set of verbs, and enabling discoverability and state transitions through hypermedia.
