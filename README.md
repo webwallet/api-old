@@ -40,13 +40,18 @@ This specification defines a RESTful API for the creation of digital wallets, is
       The currency supply is created, increased or decreased by sending transactions from/to addresses with negative lower limits. It can be a fixed amount issued upfront (limited assets), a growing amount increased on-demand (centrally-issued currencies), a dynamic amount changed on-demand (mutual credit systems), or any combination thereof.
 
  - **Data Integrity Approach**  
+  The WebWallet API uses the JavaScript Object Notation (JSON) format to represent transaction requests and records, and the JavaScript Object Signing and Encryption (JOSE) specifications to add security to JSON. Specifically, JSON Web Signatures (JWS) and public key cryptography are used to digitally sign and verify the integrity and authenticity of JSON messages.
     - **JSON Web Signatures**  
-    
+    In general, all data is structured using the unencoded JWS JSON Serialization syntax, where "payload" contains the actual data as a JSON object, "header" contains information about the signing key and algorithm, and "signature" contains a JWS signature.
       ``` json
       {
-        "header": {},
-        "payload": {},
-        "signature": ""
+        "header": {
+          "alg": "cryptographic algorithm"
+        },
+        "payload": {
+          // actual data
+        },
+        "signature": "cryptographic signature"
       }
       ```
       
