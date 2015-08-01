@@ -85,7 +85,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
       
     - **Transaction Chains**  
     In order to protect transaction history from tampering, each transaction record includes a reference to the previous transaction, thus creating a cryptographically secured chain of records whose order cannot be altered without leaving a trace. This reference can be the merkle root of all the signatures that secure the previous transaction record.
-    ```
+    ``` json
     "payload": {
       "previous": "transactionReference"
     }
@@ -109,20 +109,12 @@ This specification defines a RESTful API for the creation of digital wallets, is
     
     - **Hypermedia Controls**  
     All API responses contain hyperlinks that can be used to navigate or drive the application state. These links are grouped into three categories based on the [SIREN](https://github.com/kevinswiber/siren) specification: "entities" are references to related sub-entities, "actions" are references to behaviour an entity exposes, and "links" are references to navigational transitions:
+  
     ``` json
     {
-      "properties": {
-        
-      },
-      "entities": [
-        { "rel": ["sub-entity"], "href": "entity-url" }
-      ],
-      "actions": [
-        { "name": "action-name", "method": "http-verb", "href": "entity-url" }
-      ],
-      "links": [
-        { "rel": ["some-entity"], "href": "entity-url" }
-      ]
+      "entities": [],
+      "actions": [],
+      "links": []
     }
     ```
   
@@ -142,9 +134,9 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ## Data Modeling
 
-### API Requests
+### Transaction Requests
 
-- **Transaction Request**  
+- **General Structure**  
 
   ``` json
   {
@@ -162,9 +154,6 @@ This specification defines a RESTful API for the creation of digital wallets, is
     "signature": ""
   }
   ```
-  
-  
-#### Transaction Types
 
   - **P2P (Peer-to-Peer)**  
 
@@ -230,14 +219,22 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 - **General structure**  
 
-  ``` json
-  {
-    "properties": {},
-    "entities": [],
-    "actions": [],
-    "links": []
-  }
-  ```
+    ``` json
+    {
+      "properties": {
+        
+      },
+      "entities": [
+        { "rel": ["sub-entity"], "href": "entity-url" }
+      ],
+      "actions": [
+        { "name": "action-name", "method": "http-verb", "href": "entity-url" }
+      ],
+      "links": [
+        { "rel": ["some-entity"], "href": "entity-url" }
+      ]
+    }
+    ```
   
 ## API Overview
 The WebWallet API defines three basic endpoints: one for generating wallet addresses (/address), one for issuing currencies (/currency) and one for sending transaction requests (/transactions).
