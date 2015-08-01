@@ -155,21 +155,21 @@ This specification defines a RESTful API for the creation of digital wallets, is
   }
   ```
 
-  - **P2P (Peer-to-Peer)**  
+- **P2P (Peer-to-Peer)**  
 
   ``` json
   "sub": "sourceAddress"
   "aud": "destinationAddress"
   ```
   
-  - **P2N (Peer-to-Network)**  
+- **P2N (Peer-to-Network)**  
 
   ``` json
   "sub": "sourceAddress"
   "aud": "*"
   ```
   
-  - **N2N (Network-to-Network)**  
+- **N2N (Network-to-Network)**  
 
   ``` json
   "sub": "clearingAddress"
