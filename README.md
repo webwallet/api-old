@@ -83,14 +83,18 @@ This specification defines a RESTful API for the creation of digital wallets, is
     Each resource or collection is exposed by the API with a URL that uniquely identifies it. However, some resources are intrinsically related to more than one entity (e.g. transactions) or need to be mappable from different identifiers; therefore, multiple URLs can reference the same resource. In general, resource URLs use one of the following syntaxes:
 
     ``` 
-    https://wallet.example.com/resourceType/:resourceID
-    https://wallet.example.com/resourceType/:resourceID/resourceProperty/:propertyID
+    https://wallet.example.com/resourceType/{resourceID}
+    https://wallet.example.com/resourceType/{resourceID}/resourceProperty/{propertyID}
     ```  
     
     - **HTTP Verbs**  
+    All interactions with the resources exposed by the API are specified with a combination of a noun and a verb, where the nouns are indicated by resource URLs, and the verbs are indicated by HTTP methods. No verbs are to be found is any URL scheme, and no verbs are to be used besides the standard set defined by HTTP:
+    ``` 
+    GET     POST      PUT     DELETE
+    ```  
     
     - **Hypermedia Controls**  
-    All API responses contain hyperlinks that can be used to navigate or drive the application state. These links are grouped into three categories based on the [SIREN](https://github.com/kevinswiber/siren) specification: "entities" are references to related sub-entities, "actions" are references to behaviour an entity exposes, and "links" are references to navigational transitions.
+    All API responses contain hyperlinks that can be used to navigate or drive the application state. These links are grouped into three categories based on the [SIREN](https://github.com/kevinswiber/siren) specification: "entities" are references to related sub-entities, "actions" are references to behaviour an entity exposes, and "links" are references to navigational transitions:
     ``` json
     {
       "properties": {
@@ -100,7 +104,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
         { "rel": ["sub-entity"], "href": "entity-url" }
       ],
       "actions": [
-        { "name": "action-name", "method": "http-verb", "href": "action-url" }
+        { "name": "action-name", "method": "http-verb", "href": "entity-url" }
       ],
       "links": [
         { "rel": ["some-entity"], "href": "entity-url" }
