@@ -42,7 +42,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
  - **Data Integrity Approach**  
   The WebWallet API uses the JavaScript Object Notation (JSON) format to represent transaction requests and records, and the JavaScript Object Signing and Encryption (JOSE) specifications to add security to JSON. Specifically, JSON Web Signatures (JWS) and public key cryptography are used to digitally sign and verify the integrity and authenticity of JSON messages.
     - **JSON Web Signatures**  
-    In general, all data is structured using the unencoded JWS JSON Serialization syntax, where "payload" contains the actual data as a JSON object, "header" contains information about the signing key and algorithm, and "signature" contains a JWS signature.
+    All transaction messages and database records are structured using the unencoded JWS JSON Serialization syntax, where "payload" contains the actual data as a JSON object, "header" contains information about the signing key and algorithm, and "signature" contains a JWS signature.
       ``` json
       {
         "header": {
@@ -56,12 +56,26 @@ This specification defines a RESTful API for the creation of digital wallets, is
       ```
       
     - **Public Key Cryptography**  
-    With the purpose of enabling client-side address generation and transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all JWS signatures will be generated using public key cryptography.
+    With the purpose of enabling client-side address generation and transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all JWS signatures are generated using public key cryptography.
+      ```
+      {
+        "header": {
+          "alg": "public key signature algorithm"
+        },
+        "payload": {
+          
+        },
+        "signature": "publicly verifiable signature"
+      }
       ```
       
-      ```
     - **Transaction Chains**  
-    In order to protect transaction history from tampering, each transaction record will include a reference to the previous transaction. 
+    In order to protect transaction history from tampering, each transaction record includes a reference to the previous transaction, thus creating a cryptographically secured chain of records whose order cannot be altered without leaving a trace. This reference can be the merkle root of all the signatures that secure the previous transaction record.
+      ```
+      "payload": {
+        "previous": "transactionReference"
+      }
+      ```
 
  - **RESTful API**  
  The WebWallet API aims to be fully REST compliant, meaning level 3 in the Richardson Maturity Model. This implies having a URL for each resource, interacting with them using a standard set of verbs, and enabling discoverability and state transitions through hypermedia.
