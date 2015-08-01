@@ -80,9 +80,15 @@ This specification defines a RESTful API for the creation of digital wallets, is
  - **RESTful API**  
  The WebWallet API aims to be fully REST compliant, meaning level 3 in the Richardson Maturity Model. This implies having a URL for each resource, interacting with them using a standard set of verbs, and enabling discoverability and state transitions through hypermedia.
     - **Resource URLs**  
+    Each resource or collection is exposed by the API with a URL that uniquely identifies it. However, some resources are intrinsically related to more than one entity (e.g. transactions) or need to be mappable from different identifiers; therefore, multiple URLs can reference the same resource. In general, resource URLs use one of the following syntaxes:
 
+    ``` 
+    https://wallet.example.com/resourceType/:resourceID
+    https://wallet.example.com/resourceType/:resourceID/resourceProperty/:propertyID
+    ```  
+    
     - **HTTP Verbs**  
-
+    
     - **Hypermedia Controls**  
     All API responses contain hyperlinks that can be used to navigate or drive the application state. These links are grouped into three categories based on the [SIREN](https://github.com/kevinswiber/siren) specification: "entities" are references to related sub-entities, "actions" are references to behaviour an entity exposes, and "links" are references to navigational transitions.
     ``` json
