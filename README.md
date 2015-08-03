@@ -18,7 +18,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
 ### Definitions
   - **WebWallet**  
-  A WebWallet is a URL that references and enables the interaction with a set of payment credentials. A payment credential is any means or proof of payment such as virtual currencies, receipts, tickets, coupons, gift cards, loyalty points, certificates or badges. WebWallet URLs use the following syntax:  
+  A WebWallet is a URL that references and enables interactions with a set of payment credentials. A payment credential is any means or proof of payment such as virtual currencies, receipts, tickets, coupons, gift cards, loyalty points, certificates or badges. WebWallet URLs use the following syntax:  
 
   ```
   https://wallet.example.com/address/{walletAddress}
@@ -266,7 +266,7 @@ The WebWallet API defines three basic endpoints: one for generating wallet addre
    - **Money**  
      Information about transferable debts.
    - **Debt**  
-     Something that is owed and must be repaid.
+     An obligation to perform a reciprocal action.
    - **IOU (I Owe You)**  
      A signed document that aknowledges a debt.
    - **Currency**  
