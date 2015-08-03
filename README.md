@@ -261,3 +261,23 @@ The WebWallet API defines three basic endpoints: one for generating wallet addre
     Host: wallet.example.com
     Authorization: Bearer <TOKEN>
     ```
+
+## Glossary
+   - **Money**  
+     Information about transferable debts.
+   - **Debt**  
+     Something that is owed and must be repaid.
+   - **IOU (I Owe You)**  
+     A signed document that aknowledges a debt.
+   - **Currency**  
+     An abstract unit of account in which debts are denominated.
+   - **Currency Unit**  
+     An arbitrary increment on an abstract scale of measurement.
+   - **Currency System**  
+     A system that follows a set of rules to keep accounts of currency units.
+   - **Currency Supply**  
+     The amount of existing currency units at a particular point in time.
+   - **Clearing**  
+     Modification of account balances as a result of processing IOUs.
+   - **Settlement**  
+     An actual payment that offsets an outstanding debt after clearing.
