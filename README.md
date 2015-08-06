@@ -266,7 +266,7 @@ The WebWallet API defines three basic endpoints: one for generating wallet addre
    - **Money**  
      Information about transferable debts.
    - **Debt**  
-     An obligation to perform a reciprocal action.
+     An obligation to complete a partial exchange.
    - **IOU (I Owe You)**  
      A signed document that aknowledges a debt.
    - **Currency**  
