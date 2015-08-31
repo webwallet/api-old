@@ -12,9 +12,11 @@ This specification defines a RESTful API for the creation of digital wallets, is
 - API Overview
 
 ## Introduction
-  The Web is made of links, but money isn't, yet. If links are so useful for referencing different kinds of information such as articles, photos and videos, why aren't they used to reference and enable interactions with money? 
+  The Web is made of links, but money isn't, yet. If links are so useful for referencing different kinds of information such as articles, photos and videos, why aren't they used to reference and enable interactions with money?
   
-  Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. Using public key cryptography and Web technologies, this information can be generated with a computer, referenced using URLs and sent over the Internet like any instant message or email. The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
+  Money is a social technology that arose from debt (not from barter), and therefore it is just information about what we owe each other. Using public key cryptography and web technologies, this information about debts can be generated with a computer, referenced using URLs and sent over the Internet like any instant message or email.
+  
+  The WebWallet API is a proposal for the creation, communication and processing of such information on the Web.
 
 ### Definitions
   - **WebWallet**  
@@ -60,13 +62,13 @@ This specification defines a RESTful API for the creation of digital wallets, is
       The currency supply is created, increased or decreased by sending transactions from/to addresses with negative lower limits. It can be a fixed amount issued upfront (limited assets), a growing amount increased on-demand (centrally-issued currencies), a dynamic amount changed on-demand (mutual credit systems), or any combination thereof.
 
  - **Data Integrity Approach**  
-  The WebWallet API uses the JavaScript Object Notation (JSON) format to represent transaction requests and records, and the JavaScript Object Signing and Encryption (JOSE) specifications to add security to JSON. Specifically, JSON Web Signatures (JWS) and public key cryptography are used to digitally sign and verify the integrity and authenticity of JSON messages.
+  The WebWallet API uses the JavaScript Object Notation (JSON) format to represent transaction requests and records, and the JavaScript Object Signing and Encryption (JOSE) specifications to add security those records. Specifically, JSON Web Signatures (JWS) and public key cryptography are used to digitally sign and verify the integrity and authenticity of JSON messages.
     - **JSON Web Signatures**  
     All transaction messages and database records are structured using the unencoded JWS JSON Serialization syntax, where "payload" contains the actual data as a JSON object, "header" contains information about the signing key and algorithm, and "signature" contains a JWS signature.
     ``` json
   {
         "header": {
-          "alg": "cryptographic algorithm"
+          "alg": "cryptographic signature algorithm"
         },
         "payload": {
           
@@ -76,24 +78,33 @@ This specification defines a RESTful API for the creation of digital wallets, is
     ```
       
     - **Public Key Cryptography**  
-    With the purpose of enabling client-side address generation and transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all JWS signatures are generated using public key cryptography.
+    With the purpose of enabling client-side address generation and (multisignature) transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all JWS signatures are generated using public key cryptography and all JWS documents follow the General JWS JSON Serialization Syntax.
     ``` json
   {
-        "header": {
-          "alg": "public key signature algorithm"
-        },
         "payload": {
           
         },
-        "signature": "publicly verifiable signature"
+        "signatures": [
+          {
+            "header": {
+              "alg": "public key signature algorithm",
+              "kid": "public key reference"
+            },
+            "signature": "publicly verifiable signature"
+          }
+        ]
   }
     ```
       
     - **Transaction Chains**  
-    In order to protect transaction history from tampering, each transaction record includes a reference to the previous transaction, thus creating a cryptographically secured chain of records whose order cannot be altered without leaving a trace. This reference can be the merkle root of all the signatures that secure the previous transaction record.
+    In order to protect transaction history from tampering, each transaction record includes a reference to the previous transaction (a cryptographic hash of the previous payload), thus creating a cryptographically secured chain of records whose order and contents cannot be altered without breaking the chain and leaving a trace.
     ``` json
     "payload": {
-      "previous": "transactionReference"
+      "previous": "previous transaction hash"
+    },
+    "hash": {
+      "type": "cryptographic hash function",
+      "value": "current transaction hash"
     }
     ```
 
@@ -123,20 +134,6 @@ This specification defines a RESTful API for the creation of digital wallets, is
       "links": []
     }
     ```
-  
-## Constraints
-   - **Balance type**  
-     Address balances must be represented in numbers, not strings.
-   - **Balance initialization**  
-     New addresses must always be created with a balance of zero.
-   - **Balance modification**  
-     Address balances can only be modified by valid transactions.
-   - **Balance value**  
-     Address balances must always be in the range defined by their balance limits.
-   - **Balance limits**  
-     Upper limits must always be greater than or equal to their corresponding lower limits.
-   - **Balance format**  
-     Address balances can only have decimal place values if allowed by the currency.
 
 ## Data Modeling
 
@@ -267,6 +264,20 @@ The WebWallet API defines three basic endpoints: one for generating wallet addre
     Host: wallet.example.com
     Authorization: Bearer <TOKEN>
     ```
+  
+## Constraints
+   - **Balance type**  
+     Address balances must be represented in numbers, not strings.
+   - **Balance initialization**  
+     New addresses must always be created with a balance of zero.
+   - **Balance modification**  
+     Address balances can only be modified by valid transactions.
+   - **Balance value**  
+     Address balances must always be in the range defined by their balance limits.
+   - **Balance limits**  
+     Upper limits must always be greater than or equal to their corresponding lower limits.
+   - **Balance format**  
+     Address balances can only have decimal place values if allowed by the currency.
 
 ## Glossary
    - **Money**  
