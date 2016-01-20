@@ -66,23 +66,28 @@ This specification defines a RESTful API for the creation of digital wallets, is
  - **Data Integrity Approach**  
   The WebWallet API uses the JavaScript Object Notation (JSON) format to represent transaction requests and records, and the JavaScript Object Signing and Encryption (JOSE) specifications to add security to those records. Specifically, JSON Web Signatures (JWS) and public key cryptography are used to digitally sign and verify the integrity and authenticity of JSON messages.
     - **JSON Web Signatures**  
-    All transaction messages and database records are structured using the unencoded JWS JSON Serialization syntax, where "payload" contains the actual data as a JSON object, "header" contains information about the signing key and algorithm, and "signature" contains a JWS signature.
+    All data is structured using an extended version of the unencoded General JWS JSON Serialization syntax. The actual data is stored in the "payload" property as a JSON object, while the cryptographic signatures that secure the data are listed in the "signatures" array. An additional property "hash" contains the cryptograhic hash of the "payload" that is passed as the message parameter of digital signature algorithms.
     ``` json
   {
-        "header": {
-          "alg": "cryptographic signature algorithm"
+        "hash": {
+          
         },
         "payload": {
           
         },
-        "signature": "cryptographic signature"
+        "signatures": [
+          
+        ]
   }
     ```
       
     - **Public Key Cryptography**  
-    With the purpose of enabling client-side address generation and (multisignature) transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all JWS signatures are generated using public key cryptography and all JWS documents follow the General JWS JSON Serialization Syntax.
+    With the purpose of enabling client-side address generation and [multisignature] transaction signing, decentralized verification of transaction requests, and public auditability of transaction records, all digital signatures are generated using public key cryptography and bundled with the signing key and algorithm ("header") used to generate each "signature".
     ``` json
   {
+        "hash": {
+        
+        },
         "payload": {
           
         },
@@ -96,19 +101,24 @@ This specification defines a RESTful API for the creation of digital wallets, is
           }
         ]
   }
-    ```
+  ```
       
     - **Transaction Chains**  
     In order to protect transaction history from tampering, each transaction record includes a reference to the previous transaction (a cryptographic hash of the previous payload), thus creating a cryptographically secured chain of records whose order and contents cannot be altered without breaking the chain and leaving a trace.
     ``` json
-    "payload": {
-      "previous": "previous transaction hash"
-    },
-    "hash": {
-      "type": "cryptographic hash function",
-      "value": "current transaction hash"
-    }
-    ```
+  {
+        "hash": {
+          "type": "cryptographic hash function",
+          "value": "current transaction hash"
+        },
+        "payload": {
+          "previous": "previous transaction hash"
+        },
+        "signatures": [
+        
+        ]
+  }
+  ```
 
  - **RESTful API**  
  The WebWallet API aims to be fully REST compliant, meaning level 3 in the Richardson Maturity Model. This implies having a URL for each resource, interacting with them using a standard set of verbs, and enabling discoverability and state transitions through hypermedia.
