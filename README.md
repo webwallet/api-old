@@ -13,7 +13,7 @@ This specification defines a RESTful API for the creation of digital wallets, is
 
   
 ## API Overview
-The WebWallet API defines three main endpoints: one for registering wallet addresses (/address), one for registering new currencies (/currency) and one for sending transaction requests (/transactions).
+The WebWallet API defines three main endpoints: one for registering wallet addresses (/address), one for registering new currencies (/currency) and one for sending transaction requests (/transaction).
   - **/address**  
     Wallet addresses can be registered by sending a POST request to the /address endpoint:
     ```
@@ -33,7 +33,7 @@ The WebWallet API defines three main endpoints: one for registering wallet addre
   - **/transaction**  
     Transaction requests can be made by sending a POST request to the /transaction endpoint:
     ```
-    POST /address/.../transactions HTTP/1.1
+    POST /transaction HTTP/1.1
     Host: wallet.example.com
     Body: {...}
     ```
