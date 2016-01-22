@@ -2,7 +2,7 @@
 ### A digital wallet specification for the Web.
 
 ## Abstract
-This specification defines a RESTful API for the creation of digital wallets, issuance of virtual currencies and processing of transactions on the Web. The API is built around the concept of money as information about debts in the form of IOUs, and the use of cryptographically-signed messages to represent those IOUs.
+This specification defines a RESTful API for the creation of digital wallets, issuance of virtual currencies and processing of transactions on the Web. The API is built around the notion of money as information about debts in the form of IOUs, and the use of cryptographically signed messages to represent those IOUs.
 
 ## Contents
 - API Overview
@@ -54,7 +54,7 @@ The WebWallet API defines three main endpoints: one for registering wallet addre
   wUhBhfiaDxpYwdE754TU8XH49ayDjqM3bR      [base58check('87' + hash20bytes(publicKey))]
   ```
   - **Transaction**  
-  An operation that atomically modifies the balance of two or more addresses in a proportional way, so that the amount added to the recipient addresses equals the amount subtracted from the sender addresses.
+  An operation that atomically modifies the balance of two or more addresses in a proportional way, so that the amount added to the destination addresses equals the amount subtracted from the source addresses.
 
   - **Transaction Input**  
   A message that specifies the source, destination, amount and currency of a transaction. It is a statement about the future that will be fulfilled when it is processed as part of a transaction request. This message must be cryptographically signed by the listed addresses as a proof of consent to participate in the transaction.
@@ -170,45 +170,42 @@ The WebWallet API defines three main endpoints: one for registering wallet addre
 
 ## Data Modeling
 
-### Transaction Requests
+### IOUs
 
 - **General Structure**  
 
   ``` json
   {
-    "header": {
-      "alg": "",
-      "kid": ""
-    },
+    "hash": {},
     "payload": {
-      "sub": "",
-      "aud": "",
-      "amt": 0,
-      "iou": "",
-      "iat": ""
+      "amt": "amount",
+      "cur": "currency",
+      "sub": "source",
+      "aud": "destination",
+      "nce": "nonce"
     },
-    "signature": ""
+    "signatures": []
   }
   ```
 
 - **P2P (Peer-to-Peer)**  
 
   ``` json
-  "sub": "sourceAddress"
-  "aud": "destinationAddress"
+  "sub": "source-address"
+  "aud": "destination-address"
   ```
   
 - **P2N (Peer-to-Network)**  
 
   ``` json
-  "sub": "sourceAddress"
+  "sub": "source-address"
   "aud": "*"
   ```
   
 - **N2N (Network-to-Network)**  
 
   ``` json
-  "sub": "clearingAddress"
+  "sub": "issuer-address"
   "aud": "*"
   ```
   
@@ -218,36 +215,45 @@ The WebWallet API defines three main endpoints: one for registering wallet addre
 
   ``` json
   {
-    "address": "",
-    "balance": 0,
-    "currency": "",
-    "limits": {
-      "lower": 0,
-      "upper": null
-    }
+    "hash": {},
+    "payload": {
+      "count": 0,
+      "address": "",
+      "balance": "0",
+      "currency": "",
+      "limits": {
+        "lower": "0",
+        "upper": null
+      },
+      "transaction": {},
+      "previous": "",
+      "timestamp": ""
+    },
+    "signatures": []
   }
   ```
 
-- **Transaction Request**  
+- **Transaction Record**  
 
   ``` json
   {
+    "hash": {},
     "payload": {
-      "sub": "",
-      "aud": "",
-      "amt": 0,
-      "iou": "",
-      "iat": ""
+      "count": 0,
+      "amount": "",
+      "currency": {
+        "code": "",
+        "issuer": "",
+        "supply": "0",
+        "credit": "",
+        "ceiling": "",
+        "delta": ""
+      },
+      "inputs": [],
+      "outputs": [],
+      "previous": ""
     },
-    "signatures": [
-      {
-        "header": {
-          "alg": "",
-          "kid": ""
-        },
-        "signature": ""
-      }
-    ]
+    "signatures": []
   }
   ```
 
@@ -274,7 +280,7 @@ The WebWallet API defines three main endpoints: one for registering wallet addre
 
 ## Constraints
    - **Balance type**  
-     Address balances must be represented in numbers, not strings.
+     Address balances must be big decimal strings, not numbers.
    - **Balance initialization**  
      New addresses must always be created with a balance of zero.
    - **Balance modification**  
