@@ -1,0 +1,35 @@
+{
+  "address": {
+    "document":   "adr::{address}",
+    "transaction": {
+      "counter":  "adr::{address}::tra",
+      "document": "adr::{address}::tra::{count}"
+    }
+  },
+  "currency": {
+    "lookup":     "cur::{count}",
+    "document":   "cur::{currency}",
+    "address": {
+      "counter":  "cur::{currency}::adr",
+      "lookup":   "cur::{currency}::adr::{count}"
+    },
+    "transaction": {
+      "counter":  "cur::{currency}::tra",
+      "document": "cur::{currency}::tra::{count}"
+    }
+  },
+  "counters": {
+    "currency": "cur::counter"
+  },
+  "prefix": {
+    "address":     "adr::",
+    "currency":    "cur::",
+    "transaction": "tra::"
+  },
+  "suffix": {
+    "counter":     "::counter",
+    "version":     "::ver",
+    "wallet":      "::adr",
+    "transaction": "::tra"
+  }
+}

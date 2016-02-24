@@ -1,0 +1,29 @@
+{
+  "name": "node-webwallet-api",
+  "version": "0.0.1",
+  "private": false,
+  "description": "WebWallet API reference implementation in Node.js",
+  "keywords": ["wallet", "currency", "transaction"],
+  "author": "playbanq.com",
+  "license": "MIT",
+  "main": "api/api.js",
+  "dependencies": {
+    "bluebird": "^3.1.1",
+    "bs58check": "^1.0.6",
+    "couchbase": "^2.1.2",
+    "cors": "^2.7.1",
+    "elliptic": "^6.0.2",
+    "express": "^4.13.3",
+    "ripemd160": "^1.0.1",
+    "swagger-tools": "^0.9.9",
+    "yamljs": "0.2.4"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node api/api.js",
+    "test": "swagger project test"
+  }
+}

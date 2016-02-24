@@ -1,0 +1,384 @@
+swagger: "2.0"
+info:
+  version: "1"
+  title: WebWallet API
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+paths:
+  /address:
+    x-swagger-router-controller: endpoints
+    post:
+      description: Registers a new wallet address.
+      operationId: address.post
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/address:post:request"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/address:post:success"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/address:post:error"
+  
+  /currency:
+    x-swagger-router-controller: endpoints
+    post:
+      description: Registers a new currency issuer.
+      operationId: currency.post
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/currency:post:request"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/currency:post:success"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/currency:post:error"
+            
+  /transaction:
+    x-swagger-router-controller: endpoints
+    post:
+      description: Handles a transaction request.
+      operationId: transaction.post
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/transaction:post:request"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/transaction:post:success"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/transaction:post:error"          
+
+definitions:
+  address:post:request:
+    type: object
+    description: Wallet address registration message
+    required:
+      - hash
+      - payload
+      - signatures
+    properties:
+      hash:
+        $ref: "#/definitions/jws:hash"
+      payload:
+        $ref: "#/definitions/address:post:payload"
+      signatures:
+        $ref: "#/definitions/jws:signatures"
+  address:post:payload:
+    type: object
+    description: Wallet address details
+    required:
+      - address
+      - keys
+      - threshold
+    properties:
+      address:
+        description: Wallet address to register
+        type: string
+        format: base58check
+        example: wN1eGtWF4RoFHmsirNev2g4RzuNJh3631F
+      keys:
+        type: array
+        description: Associated cryptographic public keys
+        items:
+          type: string
+          format: hex
+        minItems: 1
+      threshold:
+        type: number
+        description: Number of signatures required for transactions
+        minimum: 1
+  address:post:success:
+    required:
+      - properties
+      - entities
+      - actions
+      - links
+    properties:
+      properties:
+        type: object
+      entities:
+        type: array
+        items:
+          type: object
+      actions:
+        type: array
+        items:
+          type: object
+      links:
+        type: array
+        items:
+          type: object
+  address:post:error:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+       
+  currency:post:request:
+    type: object
+    description: Issuer address registration message
+    required:
+      - hash
+      - payload
+      - signatures
+    properties:
+      hash:
+        $ref: "#/definitions/jws:hash"
+      payload:
+        $ref: "#/definitions/currency:post:payload"
+      signatures:
+        $ref: "#/definitions/jws:signatures"
+  currency:post:payload:
+    type: object
+    description: Issuer address details
+    required:
+      - address
+      - keys
+      - threshold
+    properties:
+      address:
+        description: Issuer address to register
+        type: string
+        format: base58check
+        example: cAKG5bJxEcbdxex9dYVdikfCoV9fnqiqbi
+      keys:
+        type: array
+        description: Associated cryptographic public keys
+        items:
+          type: string
+          format: hex
+        minItems: 1
+      threshold:
+        type: number
+        description: Number of signatures required for transactions
+        minimum: 1
+  currency:post:success:
+    required:
+      - properties
+      - entities
+      - actions
+      - links
+    properties:
+      properties:
+        type: object
+      entities:
+        type: array
+        items:
+          type: object
+      actions:
+        type: array
+        items:
+          type: object
+      links:
+        type: array
+        items:
+          type: object
+  currency:post:error:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+
+  transaction:post:request:
+    type: object
+    description: Transaction request message
+    required:
+      - hash
+      - payload
+      - signatures
+    properties:
+      hash:
+        $ref: "#/definitions/jws:hash"
+      payload:
+        $ref: "#/definitions/transaction:post:payload"
+      signatures:
+        $ref: "#/definitions/jws:signatures"
+  transaction:post:payload:
+    type: object
+    description: Transaction request parameters
+    required:
+      - inputs
+    properties:
+      inputs:
+        type: array
+        description: A collection of cryptographically signed IOUs
+        items:
+          $ref: "#/definitions/iou"
+  iou:
+    type: object
+    description: A cryptographically signed IOU
+    required:
+      - hash
+      - payload
+      - signatures
+    properties:
+      hash:
+        $ref: "#/definitions/jws:hash"
+      payload:
+        $ref: "#/definitions/iou:payload"
+      signatures:
+        $ref: "#/definitions/jws:signatures"
+  iou:payload:
+    type: object
+    description: IOU details
+    required:
+      - amt
+      - cur
+      - sub
+      - aud
+      - nce
+    properties:
+      iss: 
+        $ref: "#/definitions/iou:issuer"
+      amt: 
+        $ref: "#/definitions/iou:amount"
+      cur: 
+        $ref: "#/definitions/iou:currency"
+      sub: 
+        $ref: "#/definitions/iou:subject"
+      aud: 
+        $ref: "#/definitions/iou:audience"
+      nce: 
+        $ref: "#/definitions/iou:nonce"
+      nbf: 
+        $ref: "#/definitions/iou:notBefore"
+      exp:
+        $ref: "#/definitions/iou:expires"
+      ref: 
+        $ref: "#/definitions/iou:reference"
+  iou:issuer:
+    type: string
+    format: URL
+    description: Wallet provider
+  iou:amount:
+    type: string
+    format: big number
+    description: Transaction amount
+  iou:currency:
+    type: string
+    description: Transaction currency
+    format: ISO4217:BASE58
+    example: IOU:AKG5bJxEcb
+  iou:subject:
+    type: string
+    format: base58
+    description: Transaction source
+  iou:audience:
+    type: string
+    format: base58
+    description: Transaction destination
+  iou:nonce:
+    type: string
+    description: Random string to prevent replay attacks
+  iou:notBefore:
+    type: string
+    format: ISO8061
+    description: Date after which the IOU starts to be valid
+  iou:expires:
+    type: string
+    format: IOU8061
+    description: Date after which the IOU is no longer valid
+  iou:reference:
+    type: string
+    format: hex
+    description: Custom data
+  transaction:post:success:
+    required:
+      - properties
+      - entities
+      - actions
+      - links
+    properties:
+      properties:
+        type: object
+      entities:
+        type: array
+        items:
+          type: object
+      actions:
+        type: array
+        items:
+          type: object
+      links:
+        type: array  
+        items:
+          type: object
+  transaction:post:error:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  
+  jws:hash:
+    type: object
+    description: Type and value of a cryptographic hash
+    required:
+      - type
+      - value
+    properties:
+      type:
+        type: string
+        description: Hash type
+      value:
+        type: string
+        format: hex
+        description: Hash value
+  jws:signatures:
+    type: array
+    description: Collection of cryptographic signatures of the hash
+    items:
+      $ref: "#/definitions/jws:signatures:element"
+    minItems: 1
+  jws:signatures:element:
+    required:
+      - header
+      - signature
+    properties:
+      header:
+        $ref: "#/definitions/jws:header"
+      signature:
+        $ref: "#/definitions/jws:signature"
+  jws:header:
+    type: object
+    required:
+      - alg
+      - kid
+    properties:
+      alg:
+        type: string
+        description: Cryptographic signature scheme
+      kid:
+        type: string
+        description: A reference to a cryptographic public key
+  jws:signature:
+    type: string
+    format: base64
+    description: Cryptographic signature
