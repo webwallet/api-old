@@ -294,13 +294,13 @@ The WebWallet API defines three main endpoints: one for registering wallet addre
 
 ## Glossary
    - **Money**  
-     Information about transferable debts.
+     An information system of transferable debts.
    - **Debt**  
-     An obligation to complete a partial exchange.
+     A quantified obligation to complete an exchange.
    - **IOU (I Owe You)**  
-     A signed document that aknowledges a debt.
+     A (cryptographically) signed document that aknowledges a debt.
    - **Currency**  
-     An abstract unit of account in which debts are denominated.
+     An abstract unit of measurement in which debts are denominated.
    - **Currency Unit**  
      An arbitrary increment on an abstract scale of measurement.
    - **Currency System**  
