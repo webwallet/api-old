@@ -33,6 +33,27 @@ paths:
           schema:
             $ref: "#/definitions/address:post:error"
   
+  /address/{address}/balance:
+    x-swagger-router-controller: endpoints
+    get:
+      description: Retrieves the balance of a wallet address.
+      operationId: address.balance.get
+      parameters:
+        - name: address
+          in: path
+          type: string
+          description: A wallet address
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/address:balance:get:success"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/address:balance:get:error"
+  
   /currency:
     x-swagger-router-controller: endpoints
     post:
@@ -56,7 +77,7 @@ paths:
   /transaction:
     x-swagger-router-controller: endpoints
     post:
-      description: Handles a transaction request.
+      description: Creates a transaction request.
       operationId: transaction.post
       parameters:
         - name: body
@@ -114,12 +135,12 @@ definitions:
         minimum: 1
   address:post:success:
     required:
-      - properties
+      - data
       - entities
       - actions
       - links
     properties:
-      properties:
+      data:
         type: object
       entities:
         type: array
@@ -138,6 +159,32 @@ definitions:
       - message
     properties:
       message:
+        type: string
+        
+  address:balance:get:success:
+    required:
+      - data
+      - entities
+      - actions
+      - links
+    properties:
+      data:
+        type: object
+      entities:
+        type: array
+        items:
+          type: object
+      actions:
+        type: array
+        items:
+          type: object
+      links:
+        type: array
+        items:
+          type: object
+  address:balance:get:error:
+    properties:
+      error:
         type: string
        
   currency:post:request:
@@ -180,12 +227,12 @@ definitions:
         minimum: 1
   currency:post:success:
     required:
-      - properties
+      - data
       - entities
       - actions
       - links
     properties:
-      properties:
+      data:
         type: object
       entities:
         type: array
@@ -217,7 +264,7 @@ definitions:
       hash:
         $ref: "#/definitions/jws:hash"
       payload:
-        $ref: "#/definitions/transaction:post:payload"
+        $ref: "#/definitions/iou:payload"
       signatures:
         $ref: "#/definitions/jws:signatures"
   transaction:post:payload:
@@ -311,12 +358,12 @@ definitions:
     description: Custom data
   transaction:post:success:
     required:
-      - properties
+      - data
       - entities
       - actions
       - links
     properties:
-      properties:
+      data:
         type: object
       entities:
         type: array

@@ -14,9 +14,18 @@
       "lookup":   "cur::{currency}::adr::{count}"
     },
     "transaction": {
-      "counter":  "cur::{currency}::tra",
-      "document": "cur::{currency}::tra::{count}"
+      "request": {
+        "counter":  "cur::{currency}::tra::req",
+        "document": "cur::{currency}::tra::req::{count}"
+      },
+      "record": {
+        "counter":  "cur::{currency}::tra",
+        "document": "cur::{currency}::tra::{count}"
+      }
     }
+  },
+  "iou": {
+    "document":     "iou::{hash}"
   },
   "counters": {
     "currency": "cur::counter"

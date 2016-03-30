@@ -4,31 +4,19 @@ var endpoint = '/address';
 var P        = require('bluebird');
 
 module.exports = {
-  POST: postCurrencyUnit
+  GET: getAddressBalance
 };
 
 /*--------------------------------------------------------------------------------*/
 
-var prefixes = ['c'];
+function getAddressBalance(request) {
 
-function postCurrencyUnit(request) {
-  if(prefixes.indexOf(request.params.body.payload.address[0]) < 0) {
-    return P.resolve({
-      status: 400,
-      body: {
-        error: 'invalid-address'
-      }
-    });
-  }
-
-  return DB.create.currency.record(request)
+  return DB.read.address.balance(request)
     .then(function (response) {
       return {
         status: response.status,
         body: {
-          data: {
-            address: response.payload.address
-          },
+          data: response.data,
           error: response.error,
           entities: [],
           actions: [],

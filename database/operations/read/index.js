@@ -4,7 +4,7 @@ var P = require('bluebird');
 
 module.exports = {
   address:     {
-    balance:   readAddressBalance
+    balance:   require('./address/balance')
   },
   currency:    {
     supply:    readCurrencySupply
@@ -17,11 +17,6 @@ module.exports = {
 };
 
 /*--------------------------------------------------------------------------------*/
-
-function readAddressBalance() {
-  var db = this;
-  return P.resolve();
-}
 
 function readCurrencySupply() {
   var db = this;

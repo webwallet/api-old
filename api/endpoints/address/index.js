@@ -26,7 +26,10 @@ function postWalletAddress(request) {
       return {
         status: response.status,
         body: {
-          properties: response.body || {error: response.error},
+          data: {
+            address: response.payload.address
+          },
+          error: response.error,
           entities: [],
           actions: [],
           links: []

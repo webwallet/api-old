@@ -8,18 +8,25 @@ var DELETE   = 'DELETE';
 var P        = require('bluebird');
 
 module.exports = {
-  POST:  postTransaction
+  POST:  postTransactionRequest
 };
 
 /*--------------------------------------------------------------------------------*/
 
-function postTransaction(request) {  
-  return P.resolve({
-    properties: {},
-    entities: [],
-    actions: [],
-    links: []
-  });
+function postTransactionRequest(request) {
+  return DB.create.transaction.request(request)
+    .then(function (response) {
+      return {
+        status: response.status,
+        body: {
+          data: response.data,
+          error: response.error,
+          entities: [],
+          actions: [],
+          links: []
+        }
+      };
+    });
 }
 
 /*--------------------------------------------------------------------------------*/

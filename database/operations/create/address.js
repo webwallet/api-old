@@ -7,6 +7,8 @@ var bs58check = require('bs58check');
 var P         = require('bluebird');
 var _         = require('lodash');
 
+var config = require('../config');
+var common = require('../common');
 var dbkeys = require('../keyingScheme.json');
 var templates = require('../../templates');
 
@@ -19,38 +21,36 @@ module.exports = {
 
 /*--------------------------------------------------------------------------------*/
 
-var config = {
-  validHashes: ['sha256'],
-  defaults: {
-    scheme: 'ed25519',
-    prefix: {
-      issuer: '57',
-      bearer: '87'
-    },
-    digest: 'sha256'
-  },
-  cryptoSchemes: {
-    'secp256k1': new elliptic.ec('secp256k1'),
-    'ed25519': new elliptic.ec('ed25519')
-  }
-};
 
 function createWalletAddress(request) {
   var db = this;
   var jws = request.params.body;
+  var keys = jws.payload.keys;
   var addressType = jws.payload.address[0] === 'c' ? 'issuer' : 'bearer'; 
-  var address = generateWalletAddress(jws.payload.keys, addressType);
+  var address = generateWalletAddress(keys, addressType);
 
-  /* Request body validation */
-  var validation = validateBody(jws, address);
+  /* Request hash validation */
+  var validation = common.validate.hash(jws, address);
   if (validation && validation.error) {
-    return P.resolve(validation);
+    return {error: validation.error, info: validation}
+  }
+  if (address !== jws.payload.address) {
+    return {status: 400, error: 'invalid-address'};
   }
 
-  /* Request signature verification*/
-  var verification = verifySignatures(jws);
-  if (verification && verification.error) {
-    return P.resolve(verification);
+  /* Request structure validation */
+  if (jws.payload.threshold > keys.length) {
+    return {error: 'invalid-address-threshold'};
+  } else if (jws.signatures.length < keys.length) {
+    return {error: 'missing-address-signatures'};
+  }
+
+  /* Request signature verification */
+  var verification = _.map(jws.signatures, function (signature, index) {
+    return common.verify.signature(jws.hash.value, signature, keys[index])
+  });
+  if (_.countBy(verification).true < keys.length) {
+    return {error: 'signature-verification-error', info: verification};
   }
 
   /* Document keys */
@@ -88,50 +88,6 @@ function createTransactionRecord() {
 
 /*--------------------------------------------------------------------------------*/
 
-function validateBody(jws, address) {
-  if (config.validHashes.indexOf(jws.hash.type) < 0) {
-    return {status: 400, error: 'invalid-hash-type'};
-  }
-  var hash = crypto.createHash(jws.hash.type).update(JSON.stringify(jws.payload)).digest('hex');
-  if (hash !== jws.hash.value) {
-    return {status: 400, error: 'invalid-hash-value'};
-  }
-  if (address !== jws.payload.address) {
-    return {status: 400, error: 'invalid-address'};
-  }
-}
-
-function verifySignatures(jws) {
-  var valid;
-  var signature;
-  var scheme;
-  var publicKey;
-
-  for (let index in jws.signatures) {
-    valid = false;
-    signature = jws.signatures[index];
-
-    scheme = config.cryptoSchemes[signature.header.alg];
-    if (!scheme) {
-      return {status: 400, error: 'invalid-signature-algorithm'};
-    }
-    publicKey = jws.payload.keys[signature.header.kid];
-    if (!publicKey) {
-      return {status: 400, error: 'missing-public-key'};
-    }
-    
-    try {
-      valid = scheme.verify(jws.hash.value, signature.signature, publicKey, 'hex');
-    } catch(e) {
-      return {status: 400, error: 'invalid-signature'};
-    } finally {
-      if (!valid) {
-        return {status: 400, error: 'invalid-signature'};
-      }
-    }
-  }
-}
-
 function generateWalletAddress(publicKeys, addressType) {
   var prefix = config.defaults.prefix[addressType] || config.defaults.prefix.bearer;
   var keyBuffer = new Buffer(publicKeys[0], 'hex');
@@ -147,7 +103,7 @@ function createTransactionGenesis(address, type) {
   var transactionDocument = templates.address.transaction();
   transactionDocument.payload.address = address;
   if (type === 'issuer') {
-    transactionDocument.payload.currency = address.substr(1, 10);
+    transactionDocument.payload.currency = address.substr(0, 10);
     transactionDocument.payload.limits = {
       lower: null,
       upper: '0'

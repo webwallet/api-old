@@ -20,12 +20,13 @@ module.exports = {
 
 function createCurrencyUnit(request) {
   var db = this;
-
+  var jws;
 
   return create.address.record.call(db, request)
-    .then(function (jws) {
+    .then(function (_jws) {
+      jws = _jws;
       var address = jws.payload.address;
-      var currency = address.substr(1, 10);
+      var currency = address.substr(0, 10);
 
       /* Document keys */
       var currencyDocumentKey = dbkeys.currency.document
@@ -35,15 +36,18 @@ function createCurrencyUnit(request) {
       var issuerAddressLookupKey = dbkeys.currency.address.lookup
         .replace('{currency}', currency)
         .replace('{count}', 1);
-      var transactionCounterKey = dbkeys.currency.transaction.counter
+      var transactionRequestCounterKey = dbkeys.currency.transaction.request.counter
         .replace('{currency}', currency);
-      var transactionDocumentKey = dbkeys.currency.transaction.document
+      var transactionRecordCounterKey = dbkeys.currency.transaction.record.counter
+        .replace('{currency}', currency);
+      var transactionDocumentKey = dbkeys.currency.transaction.record.document
         .replace('{currency}', currency)
         .replace('{count}', 0);
 
       /* Document values */
       var addressCounterValue = 1;
-      var transcationCounterValue = 0;
+      var transcationRequestCounterValue = 0;
+      var transcationRecordCounterValue = 0;
       var transactionDocument = createTransactionGenesis(address, currency);
       var issuerLookupDocument = createLookupDocument(issuerAddressLookupKey, address);
 
@@ -57,10 +61,14 @@ function createCurrencyUnit(request) {
           ),
           db.create(addressCounterKey, addressCounterValue),
           db.create(issuerAddressLookupKey, issuerLookupDocument),
-          db.create(transactionCounterKey, transcationCounterValue),
+          db.create(transactionRequestCounterKey, transcationRequestCounterValue),
+          db.create(transactionRecordCounterKey, transcationRecordCounterValue),
           db.create(transactionDocumentKey, transactionDocument)
         ])
       });
+    })
+    .then(function () {
+      return jws;
     });
 }
 

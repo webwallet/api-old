@@ -4,12 +4,14 @@ var _ = require('lodash');
 
 var handlers = {
   '/address': require('./address'),
+  '/address/.../balance': require('./address/balance'),
   '/currency': require('./currency'),
   '/transaction': require('./transaction')
 };
 
 module.exports = {
   'address.post':       handle('POST', '/address'),
+  'address.balance.get': handle('GET', '/address/.../balance'),
   'currency.post':      handle('POST', '/currency'),
   'transaction.post':   handle('POST', '/transaction')
 };
