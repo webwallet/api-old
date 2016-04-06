@@ -1,7 +1,6 @@
 'use strict';
 
 var P      = require('bluebird');
-var uid2   = require('uid2');
 var create = {
   address: require('./address')
 }
